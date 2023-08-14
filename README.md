@@ -7,7 +7,7 @@ people in my ~120-person class to be awarded distincition—basically honors—f
 * [Presentation](presentation/index.pdf)
 	* I heavily regret not recording this, as I think it was the best
 	presentaiton I've ever done. The full ODP presentation with speaker notes
-	can be found in `presentation/`.
+	can be found in [`presentation/`](https://github.com/SuperSonicHub1/gorr-language/tree/master/presentation).
 * [Portfolio](portfolio/index.html)
 	* Proof to my advisor that I actually did something during the
 	class. Contains a draft version of my specification
