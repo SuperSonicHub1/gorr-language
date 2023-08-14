@@ -1,0 +1,405 @@
+Making stuff is hard. Like, really, really hard.
+
+When we want to embark on a big project, we need a team to make it happen.
+
+There’s just one problem: how do we effectively communicate our ideas?
+
+
+when a baker and a client are communicating about how a cake is to be made, the baker may create an interim recipe that they and the client can evaluate
+
+Hello, I’m looking for a chocolate cake for a friend’s birthday. It’s got to be gluten-free.
+User Requirements
+No problem!
+first, a client tells the baker what they need from the cake—3 tiers, chocolate, strawberry frosting, gluten-free—and lets the baker sweat the small stuff (user requirements)
+
+
+
+Specification
+Time to figure this out!
+the baker with those requirements designs a cake, drawing out its shape, creating a list of ingredients, and writing up decoration instructions (specification)
+
+
+Validation
+Does this look good?
+The cake looks beautiful(!), but I just learned that a vegan friend is coming to the party…
+No problem! Let me quickly edit the recipe.
+the baker then shares their specification with the client, making sure that the users’ requirements are met; for example, the baker may realize they didn’t set enough ingredients aside for the user’s desired serving size, or the client may realize that they actually need the cake to be vegan, even though they didn’t initially mention it (validation)
+
+Let’s get to baking!
+Implementation
+the baker then uses their specification, now revised and validated, to actually go bake a cake (implementation)
+
+
+
+This is perfect! Thank you!
+Verification
+You are welcome!
+Does this meet your expectations?
+the client then verifies the implementation, making sure that it follows the baker’s specification and the client’s own requirements (verification)
+
+User Requirements
+Specification
+Validation
+Implementation
+Verification
+this set of interactions between the baker and their client is very similar to how programmers coordinate writing software with their clients and one another
+
+Requirements Engineering
+this form of engineering, called requirements engineering, prioritizes the clear communication of behavior over the fine details of implementing software, making it easier for engineers to coordinate on large software projects
+
+How do we use these fandangle specifications?
+well, now we have a tool for communicating our ideas; but how do we use it well?
+
+in the case of a recipe, most have agreed on a single way: introduction, ingredients, and procedure, in that order, all written in the natural language of your choosing
+
+for computers, however, there is a significant divide in the CS community
+
+
+(van Kesteren and D. Denicola, 2006)
+natural language specifications are very similar to recipes: they use plain English with a dash of computer jargon to communicate the procedures of a program
+
+
+however, due to the many intricacies of natural language, most computer scientists find natural language unsuitable for exhaustively and clearly communicating how a program ought to function
+
+
+
+this doesn’t stop natural language from being the primary way programmers communicate: the specifications for famous internet protocols like TCP and UDP, web browsers, and even entire operating systems like POSIX Unix are all described using natural language
+
+(Chiang, 2006)
+on the other hand, we have formal specifications; they’re written in precise notations inspired by discrete mathematics and programming languages that do exhaustively describe the functioning of a program
+
+
+formal specifications are extremely powerful but have seen limited adoption in the industry because of their complexity, significant barrier to entry, and incomprehensibility to non-programmers
+
+
+[enters room]
+
+“The use of natural language alone for specification
+purposes is inadequate due to its lack of formality.” (Chiang, 2006)
+
+[drops citation]
+
+[refuses to elaborate further]
+
+[leaves]
+as you may guess, formal specifications are named as such because everyone presumes mathematical syntax is the only way to fully describe a program
+
+
+however, I believe that the benefits of formal specifications and natural language specifications can be married in such a way that we prevent our mission-critical software from having bugs at the conceptual level while not being exclusionary
+
+Formalizing Natural-Language Specifications
+How can natural language be formalized to make the process of writing specifications for complex software easier?
+Kyle Williams — June 2nd, 2023
+this is the goal of my presentation: to explore a world where formal natural-language specifications exist
+
+so, let’s design one!
+
+The Gorr Specification Language
+by Kyle Williams
+(get it? al-gor-ithm…? I’ll get my coat.)
+As part of my presentation, I have created a possible formal natural specification language named Gorr. Get it? Al-gor-ithm…? <silence> We will go through the specification together, highlighting my design decisions and how I have avoided the informal trappings of natural language.
+
+Gorr
+The algorithm [[ factorial ]], with the signature integer [[ n ]] returns integer, does the following:
+1. If either [[ n ]] is equal to 0 or [[ n ]] is equal to 1,
+1.1. Return 1.
+2. Otherwise,
+2.1. Return the multiplication of [[ n ]] by call [[ factorial ]] arguments the subtraction of 1 from [[ n ]].
+def factorial(n: int) -> int:
+  if n == 0 or n == 1:
+    return 1
+  else:
+    return n * factorial(n - 1)
+Python
+On the left, we have Gorr, my specification language, and on the right, an implementation of my specification in Python, one of the world’s most popular languages.
+
+0! = 1
+1! = 1
+2! = 2 ✕ (2 - 1)! = 2 ✕ 1 = 2
+3! = 3 ✕ (3 - 1)! = 3 ✕ 2 ✕ 1 = 6
+n! = n ✕ (n - 1)!
+The topic of my specification is the factorial operator, a math operation which finds the product of a integer—you may call them whole numbers—and all integers less than it.
+
+Mathematicians commonly define the factorial operator using itself, with 0 factorial and 1 factorial acting as base cases; this is a process known as recursion.
+I will specify the factorial using the same method.
+
+Gorr
+The algorithm [[ factorial ]], with the signature integer [[ n ]] returns integer, does the following:
+1. If either [[ n ]] is equal to 0 or [[ n ]] is equal to 1,
+1.1. Return 1.
+2. Otherwise,
+2.1. Return the multiplication of [[ n ]] by call [[ factorial ]] arguments the subtraction of 1 from [[ n ]].
+def factorial(n: int) -> int:
+  if n == 0 or n == 1:
+    return 1
+  else:
+    return n * factorial(n - 1)
+Python
+LEGEND:
+algorithm name			type signature
+arguments				return type
+My specification will have a single algorithm, the main building block of Gorr. They are used  to encapsulate logic, in this case the process of calculating a factorial.
+
+An algorithm is declared with a name and a type signature, which tell us how to use the algorithm. In this case, our algorithm “factorial” takes as an argument an integer n and returns an integer, just like the operator.
+
+Gorr
+The algorithm [[ factorial ]], with the signature integer [[ n ]] returns integer, does the following:
+1. If either [[ n ]] is equal to 0 or [[ n ]] is equal to 1,
+1.1. Return 1.
+2. Otherwise,
+2.1. Return the multiplication of [[ n ]] by call [[ factorial ]] arguments the subtraction of 1 from [[ n ]].
+def factorial(n: int) -> int:
+  if n == 0 or n == 1:
+    return 1
+  else:
+    return n * factorial(n - 1)
+Python
+LEGEND:
+body if statement otherwise statement
+if block	otherwise block condition	
+After declaring the function, we then write its body, a list of numbered statements.
+
+To implement the base and recursive cases, I use an if-otherwise statement to see if n is equal to either 0 or 1.
+I do that check in the if statement’s condition; if the condition is true, the statements nested inside the if statement, known as a block, should be executed, otherwise, the otherwise block is executed.
+
+Gorr
+The algorithm [[ factorial ]], with the signature integer [[ n ]] returns integer, does the following:
+1. If either [[ n ]] is equal to 0 or [[ n ]] is equal to 1,
+1.1. Return 1.
+2. Otherwise,
+2.1. Return the multiplication of [[ n ]] by call [[ factorial ]] arguments the subtraction of 1 from [[ n ]].
+def factorial(n: int) -> int:
+  if n == 0 or n == 1:
+    return 1
+  else:
+    return n * factorial(n - 1)
+Python
+LEGEND:
+body if statement otherwise statement
+if block	otherwise block condition	
+In Gorr, if [[ n ]] is equal to 1:
+either [[ n ]] is equal to 0 or[[ n ]] is equal to 1
+evaluates to
+either false or true,
+which then evaluates to
+true,
+meaning the if block will be executed!
+
+In Python, if n == 1:
+n == 0 or n == 1
+evaluates toFalse or True,
+which then evaluates toTrue.
+Let’s zoom in on our if condition for a bit to see how we reach the base cases.
+Our if condition contains two operators, the OR operator and the equivalence operator.
+The equivalence operator takes two integers or two Booleans—think the on and off states of a light switch, but instead we use true and false—and sees if they’re the same value; if so, it evaluates to “true,” otherwise “false.”
+The OR operator takes two Booleans and sees if either is true; if so, it evaluates to “true,” otherwise “false.”
+Because Gorr evaluates operations from left to right, we first see if our integer “n” is zero and if “n” is one, and then see if either of those cases are true.
+In the case where “n” is one, our if condition will evaluate to be true, meaning the if block is run.
+
+
+Gorr
+The algorithm [[ factorial ]], with the signature integer [[ n ]] returns integer, does the following:
+1. If either [[ n ]] is equal to 0 or [[ n ]] is equal to 1,
+1.1. Return 1.
+2. Otherwise,
+2.1. Return the multiplication of [[ n ]] by call [[ factorial ]] arguments the subtraction of 1 from [[ n ]].
+def factorial(n: int) -> int:
+  if n == 0 or n == 1:
+    return 1
+  else:
+    return n * factorial(n - 1)
+Python
+LEGEND:
+body if statement otherwise statement
+if block	otherwise block condition	
+Return the multiplication of [[ n ]] by call [[ factorial ]] arguments the subtraction of 1 from [[ n ]].
+Let’s also zoom in on the implementation of the recursive case.
+Of note here is the return statement and our algorithm call.
+The return statement stops execution of the algorithm and returns a value up to the place of the algorithm call.
+In order to recurse, we call the “factorial” algorithm, passing the single argument “n - 1,” just like in the mathematical definition.
+
+Gorr
+The algorithm [[ factorial ]], with the signature integer [[ n ]] returns integer, does the following:
+1. If either [[ n ]] is equal to 0 or [[ n ]] is equal to 1,
+1.1. Return 1.
+2. Otherwise,
+2.1. Return the multiplication of [[ n ]] by call [[ factorial ]] arguments the subtraction of 1 from [[ n ]].
+def factorial(n: int) -> int:
+  if n == 0 or n == 1:
+    return 1
+  else:
+    return n * factorial(n - 1)
+Python
+And just like that, we have now specified an algorithm for calculating the factorial of an integer in a way that is easy to read.
+
+The sentence
+“Set [[ a ]] to true.”
+can be parsed by the following rules:
+
+⟨boolean⟩				→ “true” | “false”;
+⟨variable⟩			→ “[[” ⟨space⟩? ⟨text⟩ ⟨space⟩? “]]”;
+⟨variable assignment⟩	→ “Set” ⟨space⟩ ⟨variable⟩ ⟨space⟩ “to” ⟨space⟩ ⟨boolean⟩ ⟨period⟩;
+rule
+rule name
+pattern
+symbol
+Gorr, like all languages, has a grammar; Its is written in Extended Backus-Naur Form, or EBNF, a grammar commonly used by computer scientists to specify the grammar of programming languages and protocols.
+An EBNF grammar is a series of rules, each of them searching for a specified pattern of text.
+For example, the pattern for a variable reference is two opening square brackets, an optional series of spaces, the name of your variable, another optional series of spaces, and two closing square brackets.
+
+
+There are two very important implications that come with Gorr being able to be represented in EBNF:
+
+
+Natural Language Specification
+Computer Representation
+of Specification
+“you misspelled a variable here”
+“you can’t pass an integer as a boolean here”
+“running your specification”
+Gorr can be parsed by a computer, which makes the automatic linting, verification, and even execution of a Gorr specification possible, among a litany of other ideas, and,
+
+Natural Language Specification
+Computer Representation
+of Specification
+“you misspelled a variable here”
+“you can’t pass an integer as a boolean here”
+“running your specification”
+It is impossible for the phrase
+“either true or false”
+to be parsed as
+“either [[ true ]] or [[ false ]]”
+because the grammar says so.
+b. Any grammar written in EBNF is a formal grammar. The fact that Gorr has a fully defined structure almost entirely eliminates concerns about ambiguity. There is only one way to parse a Gorr specification. I will later show how this also helps with proving that there is only one way to interpret a Gorr specification.
+
+
+
+Runthrough Complete!
+With that, our tour of Gorr is complete; for more information, a complete grammar of the language, and some example programs, see the informal description of the language I’ve handed out.
+
+How My Approach Addresses Previous Issues with Natural Language
+Let’s now see how Gorr addresses the major issues the specification community has with natural language; I’ve name-dropped a few throughout explaining Gorr, but we’ll address them all at once here.
+
+On Formalism and Specifications
+Bertrand Meyer
+IEEE Software, January 1985
+In his highly cited 1985 article “On Formalism and Specifications,” Bertrand Meyer argues against the use of natural language in formal specification, centering his argument around “the seven sins of the specifier.” We will look at all seven and see how Gorr addresses them.
+
+Noise
+The presence in the text of an element that does not carry information relevant to any feature of the problem.
+The first is noise: text that is irrelevant to describing the algorithm at hand.
+
+Because Gorr is a subset of English limited by its grammar, Gorr can only describe the outline of an algorithm, nothing else.
+Gorr is a limited subset of the English language expressly designed for writing specifications. As such, a valid Gorr program can only describe the outline of an algorithm and nothing else. For example, in a Python program, it is impossible for one to go on and on about a problem in a way that is actually executed; this is because Python is a programming language, not a public forum.
+
+Silence
+The existence of a feature of the problem that is not covered by any element of the text.
+The second is silence, which is when a feature of a problem goes unspecified.
+
+Gorr will not let you omit.
+Many of Gorr’s features prevent one from performing omission, including:
+static typing,
+variable initialization on declaration, and
+variables and functions needing to be declared before they can be used
+
+Over-specification
+The presence in the text of an element that corresponds not to a feature of the problem but to features of a probable solution.
+The third is over-specification: specifying a solution to the problem instead of the problem itself.
+
+Some may perceive Gorr as too algorithmic, but I believe that this approach to specification writing is valid.
+Gorr avoiding this sin is more of an opinion than an assertion. Many formal specification languages prefer a compositional approach, using sets and filters on those sets to narrow down toward a solution. Gorr instead uses an algorithmic approach, telling developers what their implementations must do in order to be valid; this approach will be more familiar to those already writing natural language specifications in the industry. I believe I soothe Meyer’s concerns a little by creating intentionally abstract definitions for data types, but he may believe that the algorithmic approach is itself an over-specification. I believe both are valid.
+
+Contradiction
+The presence in the text of two or more elements that define a feature of the system in an incompatible way.
+The fourth is contradiction, when two elements of a specification are at odds with one another.
+
+Gorr’s strictly typed nature
+prevents contradictions.
+The following statements
+The integer [[ meaning of life ]] is 42.
+Set [[ meaning of life ]] to false.
+are invalid in Gorr.
+The main example of contradiction Meyer brings up in the article is a specification changing the types of variables in the middle of a specification.
+
+Because Gorr has only two types and is statically typed, meaning the type of a variable cannot be changed once it is declared, we avoid contradictions that arise from implicit transformations of data and the wishful thinking of “there must be a data structure that perfectly represents my problem, so I’ll just use it without explaining it.”
+
+
+Ambiguity
+The presence in the text of two or more elements that define a feature of the system in an incompatible way.
+The fifth is ambiguity: there are multiple ways to interpret a part of a specification.
+
+The grammar and description
+of the language come together.
+Gorr prevents ambiguity in two ways. The first is its grammar: there is only one way to parse Gorr.  The second is its description: because Gorr redefines parts of the English language to match the context of a specification, Gorr gives the reader only one way to interpret what they have parsed. These two elements come together to create a near-bulletproof shield against ambiguity, with the only possible chinks being in the language’s description.
+
+Forward References
+The presence in the text of an element that uses features of the problem not defined until later in the text.
+The sixth is the forward reference, when something is referenced before it is defined.
+
+The following statements
+Set [[ meaning of life ]] to false.
+The Boolean [[ meaning of life ]] is true.
+are invalid in Gorr.
+Gorr prevents forward references by requiring variables and algorithms be declared before they can be used.
+
+I will note that is possible to have forward references in many programming languages, which are universally believed to be formal, such as JavaScript; it doesn’t change the fact that forward references are confusing.
+
+
+Wishful Thinking
+The presence in the text of an element that defines a feature of the problem in such a way that a candidate solution cannot be realistically be validated with respect to this feature.
+Finally, we have wishful thinking: defining the problem in such a way that an implementation cannot be realistically verified.
+
+You cannot escape the “sandbox”
+of the Gorr language.
+Because one is limited to the constructs of the language when writing a Gorr specification, you can’t define behavior that cannot be accomplished with the specification language, meaning that implementation can still be verified.
+
+I will note that this sin is the most weakly defined and that formal verification is very much not a solved problem in computer science; there are cases of implementations of valid specifications that cannot be trivially verified.
+
+Why Natural Language?
+This is cool and all, but, like,
+Alright! It seems like we’re really onto something here. As this presentation begins to wind down, I think it’s important to answer two questions, the first being “why natural language?”
+
+
+It’s universal.
+I cling to natural language for the same reason everyone does: it’s universal.
+
+Anyone, with knowledge of the language a specification is written in and a little bit of training, can parse one for possible errors, including users, QAs, executives, designers, and anyone else who may lack deep computer science knowledge.
+
+We communicate in all other disciplines with natural language, so why should computers be the exception?
+
+Lowering the barrier to writing correct software is critical as technology more and more defines our world. I believe that controlled natural language can be a big help
+
+If This Is Possible, Why Does Everyone Say It Isn’t?
+the second question that needs answering is, “well, if this is possible and it makes sense, how come a lot of people much smarter and more experienced than you say it isn’t?”
+
+We need to find just the right amount.
+I think the issue is that people haven’t found the Goldilocks zone for the amount of freedom natural language gets in computer science yet.
+
+repeat with i = 1 to the number of card fields
+    hide field i
+end repeat
+set dialogReply to display dialog "Dialog Text" ¬
+	default answer "Text Answer" ¬
+	hidden answer false ¬
+	buttons {"Skip", "Okay", "Cancel"} ¬
+	default button "Okay" ¬
+	cancel button "Skip" ¬
+	with title "Dialog Window Title" ¬
+	with icon note ¬
+	giving up after 15
+SELECT *
+ FROM  Book
+ WHERE price > 100.00
+ ORDER BY title;
+
+Programming languages like HyperCard, AppleScript, and SQL make use of natural language to represent computation in a form accessible to many. The issue is that these languages have limited domains; the natural language in a sense has too little freedom in order to express any arbitrary computation. One issue with AppleScript is that the syntax used for commands is usually defined by a third-party, meaning that in effect that AppleScript contains many small languages that all subtly clash with each other.
+
+On the other hand, there are people who want to derive computational meaning out of any utterance; this can be seen in tools like OpenAI’s GPT series of language models, which uses an amalgamation of text from the internet to generate convincing completions to questions, and the WolframAlpha answer engine, which uses a carefully built English parser to map words to symbols and concepts in the app’s database of facts.
+
+Trying to extract meaning from any sentence is extremely difficult. While languages like English do have formal grammars, their grammars are large, and the process of then interpreting those parsed trees is another story entirely. Meyer’s seven sins don’t just describe why it’s hard to parse natural language specifications, but why it’s hard to parse almost natural language anything.
+
+I believe Gorr, with its context-free grammar and controlled-language-like restrictions strike a nice balance between the two. Hopefully, we’ll see proper languages that inherit the ideas of Gorr some day so that specification writing can be made that little bit easier.
+
+</slideshow>
+<!-- Thank you for listening! -->
+Thank you!
